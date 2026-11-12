@@ -1,1 +1,0 @@
-This starter note was kept for the first Git snapshot. The finished lessons now live in the linked HTML guide pages.
