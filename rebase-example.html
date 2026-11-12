@@ -1,2 +1,23 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Rebase Practice</title></head><body><main><h1>Rebase practice branch</h1><p>This branch starts from a point in local history, then is replayed on a newer <code>main</code> commit. Run <code>git rebase main</code> while this branch is checked out.</p><p>Rebase changes commit IDs. Use it for your own local work before sharing.</p><p><a href="remotes.html">Read the branch and remote lesson</a></p></main></body></html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Rebase Practice | Git in Practice</title><link rel="stylesheet" href="guide.css"><script src="guide.js" defer></script></head>
+<body>
+  <header class="hero"><div class="shell hero-content"><p class="eyebrow">Practice / Refresh a branch</p><h1>Rebase your work</h1><p class="intro">Rebase replays your branch commits on a newer base. The result is often a straight, easy-to-read line of history.</p></div></header>
+  <main class="shell">
+    <nav class="top-nav" aria-label="Guide pages"><a href="index.html">Start here</a><a href="everyday.html">Everyday commands</a><a href="recovery.html">Undo and recover</a><a href="remotes.html">Branches and remotes</a></nav>
+    <section class="flow-panel" aria-labelledby="rebase-flow-title">
+      <div class="flow-head"><div><h2 id="rebase-flow-title">Replay commits on a new base</h2><p>Update your feature branch after the main branch moves forward.</p></div><button class="motion-toggle" type="button" data-motion-toggle aria-controls="rebase-flow" aria-pressed="false">Pause animation</button></div>
+      <ol class="flow-track" id="rebase-flow" aria-label="Fetch latest work, switch to feature branch, rebase, and review">
+        <li class="step"><span class="step-icon" aria-hidden="true">1</span><div class="step-card"><h3>Update</h3><p>Get current main.</p><code>git fetch origin</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">2</span><div class="step-card"><h3>Switch</h3><p>Move to your branch.</p><code>git checkout topic</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">3</span><div class="step-card"><h3>Replay</h3><p>Use the newer base.</p><code>git rebase main</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">4</span><div class="step-card"><h3>Review</h3><p>Check the new history.</p><code>git log --oneline</code></div></li>
+      </ol>
+    </section>
+    <section class="panel"><h2>Basic syntax</h2><pre class="syntax"><code>git checkout docs/new-lesson<br>git rebase main</code></pre><p>Git replays each commit from your branch on top of <code>main</code>. The replayed commits receive new IDs.</p><div class="tag-row"><span class="tag local">Local history</span><span class="tag history">Commit IDs change</span></div></section>
+    <section class="command-card" data-tone="amber"><h2>Resolve or cancel a conflict</h2><p>If a commit conflicts, edit the files, stage the resolutions, and continue. To return to the state before rebase, abort instead.</p><pre class="syntax"><code>git add resolved-file.html<br>git rebase --continue<br>git rebase --abort</code></pre><div class="callout warning"><strong>Keep shared work safe:</strong> avoid rebasing commits that other people already use unless the team agrees to rewrite that history.</div></section>
+    <div class="lesson-links"><a class="lesson-link" href="remotes.html">Compare merge, rebase, and cherry-pick</a><a class="lesson-link" href="branch-workflow.html">Practice the branch workflow</a></div>
+  </main>
+  <footer class="shell"><a href="index.html">Back to Git in Practice home</a></footer>
+</body>
+</html>

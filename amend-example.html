@@ -1,2 +1,23 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Correct a Commit Message</title></head><body><main><h1>Correct a commit message</h1><p>If the latest local commit message has a typo, correct it with <code>git commit --amend -m "Clear corrected message"</code>.</p><p>For example, change “Add commmand guide” to “Add command guide.” This replaces the latest commit and changes its ID. Amend only commits that have not been shared, unless collaborators agree to the rewrite.</p><p><a href="recovery.html">Read the undo and recovery lesson</a></p></main></body></html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Correct a Commit Message | Git in Practice</title><link rel="stylesheet" href="guide.css"><script src="guide.js" defer></script></head>
+<body>
+  <header class="hero"><div class="shell hero-content"><p class="eyebrow">Practice / Commit messages</p><h1>Fix the latest message</h1><p class="intro">Spotted a typo after committing? Amend can replace the latest local commit message before you share it.</p></div></header>
+  <main class="shell">
+    <nav class="top-nav" aria-label="Guide pages"><a href="index.html">Start here</a><a href="everyday.html">Everyday commands</a><a href="recovery.html">Undo and recover</a><a href="remotes.html">Branches and remotes</a></nav>
+    <section class="flow-panel" aria-labelledby="amend-flow-title">
+      <div class="flow-head"><div><h2 id="amend-flow-title">Correct a commit message</h2><p>Only amend the latest commit, and check whether it has already been shared.</p></div><button class="motion-toggle" type="button" data-motion-toggle aria-controls="amend-flow" aria-pressed="false">Pause animation</button></div>
+      <ol class="flow-track" id="amend-flow" aria-label="Inspect latest commit, amend the message, and review history">
+        <li class="step"><span class="step-icon" aria-hidden="true">1</span><div class="step-card"><h3>Inspect</h3><p>Check the latest message.</p><code>git log -1</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">2</span><div class="step-card"><h3>Correct</h3><p>Write the fixed subject.</p><code>git commit --amend</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">3</span><div class="step-card"><h3>Review</h3><p>Confirm the new commit.</p><code>git log --oneline</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">4</span><div class="step-card"><h3>Share</h3><p>Push after review.</p><code>git push</code></div></li>
+      </ol>
+    </section>
+    <section class="panel"><h2>The command is <code>--amend</code></h2><p><code>git ammend</code> is a common misspelling, not a Git command. Use <code>git commit --amend</code> to replace the latest commit. The commit ID changes because Git writes a new commit.</p><pre class="syntax"><code>git commit --amend -m "Add command guide"</code></pre><p>This replaces a typo such as <em>Add commmand guide</em> with <em>Add command guide</em>.</p></section>
+    <section class="command-card" data-tone="amber"><h2>Include a file you forgot to stage</h2><p>Stage the missing file, then amend without changing the existing message:</p><pre class="syntax"><code>git add missed-file.html<br>git commit --amend --no-edit</code></pre><div class="callout warning"><strong>Before pushing:</strong> amending rewrites the commit. Avoid changing a commit already shared with collaborators unless they agree to the history rewrite.</div><div class="tag-row"><span class="tag local">Local</span><span class="tag history">Rewrites latest commit</span></div></section>
+    <div class="lesson-links"><a class="lesson-link" href="recovery.html">More recovery commands</a><a class="lesson-link" href="everyday.html">Everyday commit workflow</a></div>
+  </main>
+  <footer class="shell"><a href="index.html">Back to Git in Practice home</a></footer>
+</body>
+</html>

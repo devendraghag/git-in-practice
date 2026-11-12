@@ -1,3 +1,24 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Branch Workflow | Git in Practice</title><style>body{max-width:850px;margin:auto;padding:1rem;font:16px/1.65 system-ui;color:#172033}nav,.card{border:1px solid #d7e0ea;border-radius:12px;padding:1rem;margin:1rem 0}a{color:#075985;font-weight:650}code,pre{font-family:ui-monospace,Consolas,monospace}code{background:#e7eef6;padding:.1rem .3rem}pre{overflow:auto;background:#111827;color:#eef2ff;padding:1rem;border-radius:8px}</style></head>
-<body><nav><a href="index.html">Start here</a> · <a href="everyday.html">Everyday commands</a> · <a href="recovery.html">Undo and recover</a> · <a href="remotes.html">Branches and remotes</a></nav><main><h1>A branch workflow to practice</h1><p>Make a small change on its own branch, save it, then bring it back to <code>main</code>. A branch keeps unfinished work separate from the main line.</p><section class="card"><h2>Try the sequence</h2><pre><code>git status<br>git checkout -b docs/branch-workflow<br>git add branch-workflow.html<br>git commit -m "Document branch workflow"<br>git checkout main<br>git merge docs/branch-workflow</code></pre><p>The branch and commit are local. The merge updates local history. To share the branch use <code>git push -u origin docs/branch-workflow</code>.</p></section><p><a href="index.html">Back to the guide</a></p></main></body></html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Branch Workflow | Git in Practice</title><link rel="stylesheet" href="guide.css"><script src="guide.js" defer></script></head>
+<body>
+  <header class="hero"><div class="shell hero-content"><p class="eyebrow">Practice / Branches</p><h1>One idea, one branch</h1><p class="intro">A branch gives a small feature its own line of work. When it is ready, merge it back into <code>main</code>.</p></div></header>
+  <main class="shell">
+    <nav class="top-nav" aria-label="Guide pages"><a href="index.html">Start here</a><a href="everyday.html">Everyday commands</a><a href="recovery.html">Undo and recover</a><a href="remotes.html">Branches and remotes</a></nav>
+    <section class="flow-panel" aria-labelledby="branch-flow-title">
+      <div class="flow-head"><div><h2 id="branch-flow-title">Branch, commit, merge</h2><p>Keep the main line tidy while you build one focused change.</p></div><button class="motion-toggle" type="button" data-motion-toggle aria-controls="branch-flow" aria-pressed="false">Pause animation</button></div>
+      <ol class="flow-track" id="branch-flow" aria-label="Create branch, make a commit, switch to main, and merge">
+        <li class="step"><span class="step-icon" aria-hidden="true">1</span><div class="step-card"><h3>Create</h3><p>Start a focused branch.</p><code>git checkout -b</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">2</span><div class="step-card"><h3>Commit</h3><p>Save the related change.</p><code>git commit</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">3</span><div class="step-card"><h3>Return</h3><p>Switch to the base branch.</p><code>git checkout main</code></div></li>
+        <li class="step"><span class="step-icon" aria-hidden="true">4</span><div class="step-card"><h3>Merge</h3><p>Bring the branch into main.</p><code>git merge</code></div></li>
+      </ol>
+      <p class="flow-caption">A branch is a lightweight pointer to a commit. Switching branches updates the files in your working folder.</p>
+    </section>
+    <section class="panel"><h2>Try this sequence</h2><pre class="syntax"><code>git status<br>git checkout -b docs/branch-workflow<br>git add branch-workflow.html<br>git commit -m "Document branch workflow"<br>git checkout main<br>git merge docs/branch-workflow</code></pre><p>This example uses the same branch and focused commit recorded in this learning repository.</p><div class="tag-row"><span class="tag local">Branch changes are local</span><span class="tag history">Merge updates history</span></div></section>
+    <section class="panel"><h2>Share the branch with others</h2><p>Push a new branch once to publish it and set its upstream:</p><pre class="syntax"><code>git push -u origin docs/branch-workflow</code></pre><p>After that, use <code>git push</code> to send later commits on that branch.</p></section>
+    <div class="lesson-links"><a class="lesson-link" href="everyday.html">Learn everyday commands</a><a class="lesson-link" href="remotes.html">Learn remote workflows</a></div>
+  </main>
+  <footer class="shell"><a href="index.html">Back to Git in Practice home</a></footer>
+</body>
+</html>
