@@ -3,169 +3,183 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A beginner-friendly, hands-on guide to everyday Git commands, branches, recovery, and remotes.">
+  <meta name="description" content="A colorful, hands-on introduction to Git: inspect, stage, save, and share your work.">
   <title>Git in Practice | Start Here</title>
   <style>
     :root {
       color-scheme: light;
-      --ink: #172033;
-      --muted: #526078;
-      --accent: #075985;
-      --line: #d7e0ea;
-      --paper: #f4f7fb;
-      --panel: #ffffff;
+      --ink: #18253d;
+      --muted: #596982;
+      --paper: #f5f7fb;
+      --panel: #fff;
+      --line: #dce3ef;
+      --navy: #15213b;
+      --green: #16855b;
+      --amber: #d58a12;
+      --violet: #7354c8;
+      --blue: #187ca8;
     }
 
     * { box-sizing: border-box; }
-
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background: var(--paper);
       color: var(--ink);
-      font: 17px/1.75 system-ui, -apple-system, "Segoe UI", sans-serif;
+      font: 17px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif;
     }
 
-    .page {
-      width: min(780px, calc(100% - 2rem));
-      margin-inline: auto;
+    a { color: #075f88; text-underline-offset: .18em; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #efa92e; outline-offset: 3px; }
+    .shell { width: min(1080px, calc(100% - 2rem)); margin-inline: auto; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 3.5rem 0 4.5rem;
+      background: radial-gradient(ellipse at 88% 12%, #385b86 0, transparent 36%), linear-gradient(130deg, #14203a, #202b49 62%, #263955);
+      color: #f8fafc;
     }
 
-    header { padding: 3.5rem 0 1.5rem; }
-
-    .eyebrow {
-      margin: 0 0 .6rem;
-      color: var(--accent);
-      font-size: .85rem;
-      font-weight: 750;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+    .hero::after {
+      position: absolute;
+      right: -7rem;
+      bottom: -12rem;
+      width: 29rem;
+      height: 29rem;
+      border: 1px solid rgb(255 255 255 / 12%);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2.5rem rgb(255 255 255 / 3%), 0 0 0 5rem rgb(255 255 255 / 2%);
+      content: "";
+      pointer-events: none;
     }
 
-    h1 {
-      max-width: 14ch;
-      margin: 0;
-      font-size: clamp(2.5rem, 8vw, 4.25rem);
-      line-height: 1.05;
-      letter-spacing: -.04em;
-    }
+    .hero-content { position: relative; z-index: 1; }
+    .eyebrow { margin: 0 0 .7rem; color: #a6f1c7; font-size: .82rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    h1 { max-width: 13ch; margin: 0; font-size: clamp(2.8rem, 8vw, 5.4rem); line-height: .98; letter-spacing: -.055em; }
+    .hero p.intro { max-width: 62ch; margin: 1.3rem 0 0; color: #dbe5f3; font-size: clamp(1.05rem, 2.5vw, 1.25rem); }
+    .hero-note { display: inline-flex; align-items: center; gap: .55rem; margin-top: 1.7rem; padding: .5rem .8rem; border: 1px solid rgb(255 255 255 / 20%); border-radius: 999px; background: rgb(255 255 255 / 7%); color: #f8fafc; font-size: .9rem; }
+    .hero-note span { color: #a6f1c7; font-weight: 800; }
 
-    .intro {
-      max-width: 62ch;
-      margin: 1.25rem 0 0;
-      color: var(--muted);
-      font-size: 1.15rem;
-    }
-
+    main { padding-bottom: 1rem; }
     nav {
+      position: relative;
+      z-index: 2;
       display: flex;
       flex-wrap: wrap;
       gap: .35rem;
-      margin: 1rem 0 2rem;
-      padding: .5rem;
+      margin: -1.35rem 0 2.3rem;
+      padding: .55rem;
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 14px;
       background: var(--panel);
+      box-shadow: 0 14px 32px rgb(24 37 61 / 9%);
     }
 
-    nav a {
-      padding: .5rem .75rem;
-      border-radius: 8px;
-      color: var(--accent);
-      font-size: .95rem;
-      font-weight: 700;
-      text-decoration: none;
+    nav a { padding: .55rem .8rem; border-radius: 9px; color: #30415f; font-size: .94rem; font-weight: 720; text-decoration: none; }
+    nav a:hover, nav a[aria-current="page"] { background: #eaf6f0; color: #116747; }
+    section { margin: 2.8rem 0; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .section-heading h2 { margin: 0; font-size: clamp(1.6rem, 4vw, 2.15rem); line-height: 1.2; letter-spacing: -.035em; }
+    .section-heading p { max-width: 50ch; margin: .4rem 0 0; color: var(--muted); }
+    .panel { padding: clamp(1.2rem, 4vw, 2rem); border: 1px solid var(--line); border-radius: 18px; background: var(--panel); box-shadow: 0 10px 30px rgb(24 37 61 / 5%); }
+    .panel h2 { margin: 0 0 .65rem; font-size: clamp(1.45rem, 4vw, 1.9rem); line-height: 1.2; letter-spacing: -.03em; }
+    .panel > p { max-width: 76ch; margin: .7rem 0; color: var(--muted); }
+
+    .zones { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem; }
+    .zone { display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .7rem; border: 1px solid var(--line); border-radius: 999px; background: #fbfcfe; color: #34435c; font-size: .86rem; font-weight: 700; }
+    .zone b { width: .62rem; height: .62rem; border-radius: 50%; background: var(--green); }
+    .zone.remote b { background: var(--blue); }
+
+    .flow-panel { padding: clamp(1.2rem, 4vw, 2rem); overflow: hidden; border: 1px solid #d5dfed; border-radius: 20px; background: linear-gradient(145deg, #fff, #f3f7ff); box-shadow: 0 16px 36px rgb(24 37 61 / 7%); }
+    .flow-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .flow-head h2 { margin: 0; font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.2; letter-spacing: -.03em; }
+    .flow-head p { margin: .45rem 0 0; color: var(--muted); }
+    .motion-toggle { flex: 0 0 auto; padding: .55rem .8rem; border: 1px solid #c8d4e5; border-radius: 9px; background: #fff; color: #273653; font: inherit; font-size: .88rem; font-weight: 750; cursor: pointer; }
+    .motion-toggle:hover { border-color: #7d91b0; background: #f7f9fc; }
+
+    .flow-track { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+    .flow-track::before { position: absolute; z-index: 0; top: 1.45rem; right: 8%; left: 8%; height: 4px; border-radius: 4px; background: linear-gradient(90deg, #38a874, #e3a52c 36%, #8c70db 68%, #3997bb); content: ""; opacity: .55; }
+    .runner { position: absolute; z-index: 2; top: 1.23rem; left: 8%; width: .48rem; height: .48rem; border: 2px solid white; border-radius: 50%; background: #17233c; box-shadow: 0 0 0 3px rgb(23 35 60 / 13%); animation: travel 8s ease-in-out infinite; }
+    .flow-track.paused .runner, .flow-track.paused .step-icon, .flow-track.paused .step-card { animation-play-state: paused; }
+    .step { position: relative; z-index: 1; min-width: 0; }
+    .step-icon { display: grid; width: 2.9rem; height: 2.9rem; place-items: center; margin: 0 auto .8rem 0; border: 4px solid #f5f7fb; border-radius: 50%; background: var(--step-color); color: white; font-size: 1.05rem; font-weight: 850; box-shadow: 0 0 0 1px rgb(24 37 61 / 9%); animation: pop 4s ease-in-out infinite; animation-delay: var(--delay); }
+    .step:nth-of-type(1) { --step-color: var(--green); --delay: 0s; }
+    .step:nth-of-type(2) { --step-color: var(--amber); --delay: 1s; }
+    .step:nth-of-type(3) { --step-color: var(--violet); --delay: 2s; }
+    .step:nth-of-type(4) { --step-color: var(--blue); --delay: 3s; }
+    .step-card { min-height: 150px; padding: 1rem; border: 1px solid var(--line); border-top: 4px solid var(--step-color); border-radius: 13px; background: #fff; animation: card-glow 4s ease-in-out infinite; animation-delay: var(--delay); }
+    .step-card h3 { margin: 0 0 .25rem; font-size: 1.08rem; line-height: 1.3; }
+    .step-card p { margin: .35rem 0 .65rem; color: var(--muted); font-size: .91rem; line-height: 1.5; }
+    .step-card code { font-size: .82rem; }
+    .flow-caption { margin: 1rem 0 0; color: var(--muted); font-size: .9rem; }
+
+    .workflow-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin: 1.2rem 0 0; padding: 0; list-style: none; counter-reset: workflow; }
+    .workflow-list li { position: relative; min-height: 75px; margin: 0; padding: .85rem .9rem .85rem 3.15rem; border: 1px solid var(--line); border-radius: 12px; background: white; counter-increment: workflow; }
+    .workflow-list li::before { position: absolute; top: .85rem; left: .85rem; display: grid; width: 1.7rem; height: 1.7rem; place-items: center; border-radius: 50%; background: #e9f5ef; color: #146b49; content: counter(workflow); font-size: .85rem; font-weight: 850; }
+    .workflow-list strong { display: block; margin-bottom: .15rem; }
+    .workflow-list span { color: var(--muted); font-size: .92rem; }
+
+    code { padding: .12rem .35rem; border: 1px solid #e0e6ef; border-radius: 5px; background: #f1f4f8; color: #273653; font: .91em ui-monospace, "Cascadia Code", Consolas, monospace; overflow-wrap: anywhere; }
+    .message-examples { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
+    .message-examples span { padding: .35rem .6rem; border: 1px solid #d5e9dc; border-radius: 8px; background: #f1faf4; color: #285a40; font-size: .88rem; font-weight: 700; }
+
+    .lessons { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr)); gap: .9rem; margin-top: 1.25rem; }
+    .lesson { --card-color: var(--green); display: flex; min-height: 150px; flex-direction: column; padding: 1.1rem; border: 1px solid var(--line); border-left: 5px solid var(--card-color); border-radius: 13px; background: var(--panel); color: var(--ink); text-decoration: none; box-shadow: 0 5px 16px rgb(24 37 61 / 4%); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .lesson:nth-child(2) { --card-color: #dc8a20; }
+    .lesson:nth-child(3) { --card-color: var(--blue); }
+    .lesson:nth-child(4) { --card-color: var(--violet); }
+    .lesson:nth-child(5) { --card-color: #d45f64; }
+    .lesson:hover { transform: translateY(-3px); border-color: #b6c5d9; box-shadow: 0 12px 24px rgb(24 37 61 / 10%); }
+    .lesson strong { margin-bottom: .35rem; font-size: 1.06rem; }
+    .lesson span { color: var(--muted); font-size: .93rem; }
+    .lesson .arrow { margin-top: auto; padding-top: .65rem; color: var(--card-color); font-size: .88rem; font-weight: 800; }
+
+    footer { margin-top: 3rem; padding: 1.4rem 0 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .92rem; }
+
+    @keyframes travel { 0%, 8% { left: 8%; } 92%, 100% { left: 92%; } }
+    @keyframes pop { 0%, 15%, 100% { transform: scale(1); } 6% { transform: scale(1.15); } }
+    @keyframes card-glow { 0%, 18%, 100% { box-shadow: 0 0 0 rgb(24 37 61 / 0%); } 8% { box-shadow: 0 8px 22px rgb(24 37 61 / 9%); } }
+
+    @media (max-width: 720px) {
+      .flow-track { grid-template-columns: 1fr; gap: .85rem; margin-top: 1.5rem; padding-left: 0; }
+      .flow-track::before { top: 1.4rem; right: auto; bottom: 1.4rem; left: 1.35rem; width: 4px; height: auto; background: linear-gradient(180deg, #38a874, #e3a52c 36%, #8c70db 68%, #3997bb); }
+      .runner { top: 1.25rem; left: 1.15rem; animation-name: travel-vertical; }
+      .step { display: grid; grid-template-columns: 2.9rem minmax(0, 1fr); align-items: start; gap: .65rem; }
+      .step-icon { margin: 0; }
+      .step-card { min-height: auto; }
+      .workflow-list { grid-template-columns: 1fr; }
     }
 
-    nav a:hover, nav a:focus-visible { background: #eaf3f8; }
-    a { color: var(--accent); text-underline-offset: .18em; }
-    a:focus-visible { outline: 3px solid #38bdf8; outline-offset: 3px; }
-
-    section { margin: 2.5rem 0; }
-
-    .panel {
-      padding: clamp(1.25rem, 4vw, 2rem);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--panel);
-      box-shadow: 0 8px 24px rgb(23 32 51 / 4%);
-    }
-
-    h2 {
-      margin: 0 0 .75rem;
-      font-size: clamp(1.4rem, 4vw, 1.8rem);
-      line-height: 1.25;
-      letter-spacing: -.02em;
-    }
-
-    p { max-width: 68ch; margin: .75rem 0; }
-    .muted { color: var(--muted); }
-
-    .flow {
-      margin: 1.25rem 0;
-      padding: 1rem 1.25rem;
-      overflow-x: auto;
-      border-radius: 10px;
-      background: #111827;
-      color: #f1f5f9;
-      font: .92rem/1.8 ui-monospace, "Cascadia Code", Consolas, monospace;
-    }
-
-    ol { padding-left: 1.5rem; }
-    li { margin: .55rem 0; padding-left: .2rem; }
-
-    code {
-      padding: .12rem .35rem;
-      border-radius: 5px;
-      background: #eaf0f6;
-      color: #172033;
-      font: .92em ui-monospace, "Cascadia Code", Consolas, monospace;
-      overflow-wrap: anywhere;
-    }
-
-    .lessons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-      gap: .85rem;
-      margin-top: 1.25rem;
-    }
-
-    .lesson {
-      display: block;
-      height: 100%;
-      padding: 1rem;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: var(--panel);
-      text-decoration: none;
-    }
-
-    .lesson:hover { border-color: #75a9c3; transform: translateY(-1px); }
-    .lesson strong { display: block; margin-bottom: .25rem; }
-    .lesson span { color: var(--muted); font-size: .94rem; }
-
-    footer {
-      margin-top: 3rem;
-      padding: 1.5rem 0 2.5rem;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: .92rem;
-    }
+    @keyframes travel-vertical { 0%, 8% { top: 1.25rem; } 92%, 100% { top: calc(100% - 1.75rem); } }
 
     @media (max-width: 520px) {
       body { font-size: 16px; }
-      header { padding-top: 2.5rem; }
-      nav a { padding: .45rem .55rem; }
+      .hero { padding: 2.8rem 0 3.8rem; }
+      .section-heading { display: block; }
+      .flow-head { align-items: flex-start; flex-direction: column; }
+      .motion-toggle { align-self: flex-start; }
+      nav { margin-bottom: 1.7rem; }
+      nav a { padding: .45rem .6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .motion-toggle { display: none; }
     }
   </style>
 </head>
 <body>
-  <header class="page">
-    <p class="eyebrow">A hands-on beginner guide</p>
-    <h1>Git in Practice</h1>
-    <p class="intro">Learn how to save your work, try changes safely, and share a project. Each lesson uses plain language and practical commands.</p>
+  <header class="hero">
+    <div class="shell hero-content">
+      <p class="eyebrow">A hands-on beginner guide</p>
+      <h1>Git in Practice</h1>
+      <p class="intro">Make small changes. Save clear snapshots. Share your work with confidence. Follow the flow below, then choose a lesson to try it yourself.</p>
+      <div class="hero-note"><span>THE LOOP</span> Inspect / Stage / Save / Share</div>
+    </div>
   </header>
 
-  <main class="page">
+  <main class="shell">
     <nav aria-label="Guide pages">
       <a href="index.html" aria-current="page">Start here</a>
       <a href="everyday.html">Everyday commands</a>
@@ -173,41 +187,87 @@
       <a href="remotes.html">Branches and remotes</a>
     </nav>
 
-    <section class="panel" aria-labelledby="git-picture">
-      <h2 id="git-picture">A simple picture of Git</h2>
-      <p>Your working folder holds the files you edit. The staging area is a shortlist of changes for your next snapshot. A commit saves that snapshot in local history. A remote is another copy, often hosted on GitHub.</p>
-      <pre class="flow"><code>working files  ->  staging area  ->  local commits  <->  remote
-    edit              git add         git commit       fetch / pull / push</code></pre>
-      <p>Most commands in this guide work locally. <code>git fetch</code>, <code>git pull</code>, and <code>git push</code> communicate with a remote. <code>git clone</code> downloads a repository and creates a local copy.</p>
-    </section>
-
-    <section aria-labelledby="normal-loop">
-      <h2 id="normal-loop">The everyday loop</h2>
-      <ol>
-        <li>Check your branch and changes with <code>git status</code>.</li>
-        <li>Edit a few related files, then review them with <code>git diff</code>.</li>
-        <li>Choose what belongs in the next snapshot with <code>git add path/to/file</code>.</li>
-        <li>Save it locally with <code>git commit -m "Add command guide"</code>.</li>
-        <li>Share your work with <code>git push</code>; receive teammates' updates with <code>git pull</code>.</li>
+    <section class="flow-panel" aria-labelledby="flow-title">
+      <div class="flow-head">
+        <div>
+          <h2 id="flow-title">Your first Git workflow</h2>
+          <p>Follow a change from your computer to a shared remote.</p>
+        </div>
+        <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false">Pause animation</button>
+      </div>
+      <ol class="flow-track" id="workflow-flow" aria-label="Git workflow: inspect, stage, commit, and share">
+        <span class="runner" aria-hidden="true"></span>
+        <li class="step">
+          <span class="step-icon" aria-hidden="true">1</span>
+          <div class="step-card"><h3>Inspect</h3><p>See what changed and which branch you are on.</p><code>git status</code></div>
+        </li>
+        <li class="step">
+          <span class="step-icon" aria-hidden="true">2</span>
+          <div class="step-card"><h3>Stage</h3><p>Pick the files that belong in this snapshot.</p><code>git add page.html</code></div>
+        </li>
+        <li class="step">
+          <span class="step-icon" aria-hidden="true">3</span>
+          <div class="step-card"><h3>Commit</h3><p>Save a named snapshot in local history.</p><code>git commit -m "Add guide"</code></div>
+        </li>
+        <li class="step">
+          <span class="step-icon" aria-hidden="true">4</span>
+          <div class="step-card"><h3>Share</h3><p>Send your new commit to the remote repository.</p><code>git push</code></div>
+        </li>
       </ol>
-      <p>Good commit messages say what changed: <em>Add command guide</em>, <em>Fix broken navigation</em>, or <em>Document branch workflow</em>. Keep each commit focused on one idea.</p>
-      <p>If you need to pause tracked edits, <code>git stash push -m "short task note"</code> saves them temporarily so you can switch tasks and restore them later.</p>
+      <p class="flow-caption">The first three steps happen locally. Sharing uses your configured remote, such as GitHub.</p>
     </section>
 
-    <section aria-labelledby="choose-lesson">
-      <h2 id="choose-lesson">Choose a lesson</h2>
-      <div class="lessons">
-        <a class="lesson" href="everyday.html"><strong>Everyday commands</strong><span>Check, stage, commit, branch, and tag your work.</span></a>
-        <a class="lesson" href="recovery.html"><strong>Undo and recover</strong><span>Use revert, reset, clean, stash, amend, and remove files carefully.</span></a>
-        <a class="lesson" href="remotes.html"><strong>Branches and remotes</strong><span>Clone, fetch, pull, push, merge, rebase, and cherry-pick.</span></a>
-        <a class="lesson" href="branch-workflow.html"><strong>Branch workflow</strong><span>Practice a focused feature branch and merge.</span></a>
-        <a class="lesson" href="amend-example.html"><strong>Correct a commit message</strong><span>See how amend fixes the latest local commit.</span></a>
+    <section aria-labelledby="git-picture">
+      <div class="section-heading"><div><h2 id="git-picture">A simple picture of Git</h2><p>Git keeps your edits, selected changes, saved history, and shared copy in separate places.</p></div></div>
+      <div class="panel">
+        <p>Your working folder holds the files you edit. The staging area is a shortlist for the next snapshot. A commit saves that snapshot in local history. A remote is another copy, often hosted on GitHub.</p>
+        <div class="zones" aria-label="Git work areas">
+          <span class="zone"><b></b> Working files</span>
+          <span class="zone"><b></b> Staging area</span>
+          <span class="zone"><b></b> Local history</span>
+          <span class="zone remote"><b></b> Remote copy</span>
+        </div>
+        <p>Most commands in this guide work locally. <code>git fetch</code>, <code>git pull</code>, and <code>git push</code> communicate with a remote. <code>git clone</code> downloads a repository and creates a local copy.</p>
       </div>
     </section>
 
-    <p class="muted">These are standalone HTML pages. Open this file in a browser and use the links above to move between lessons.</p>
+    <section aria-labelledby="normal-loop">
+      <div class="section-heading"><div><h2 id="normal-loop">A good everyday rhythm</h2><p>Small, reviewable steps make Git easier to understand and safer to use.</p></div></div>
+      <ol class="workflow-list">
+        <li><strong>Check your work</strong><span>Use <code>git status</code> to see your branch and changes.</span></li>
+        <li><strong>Review your edits</strong><span>Use <code>git diff</code> before choosing what to save.</span></li>
+        <li><strong>Stage only related files</strong><span>Use <code>git add path/to/file</code> to select them.</span></li>
+        <li><strong>Save a clear snapshot</strong><span>Use <code>git commit -m "Add command guide"</code>.</span></li>
+      </ol>
+      <div class="panel" style="margin-top:1rem">
+        <p><strong>Write useful commit messages.</strong> Start with a verb and describe one change.</p>
+        <div class="message-examples"><span>Add command guide</span><span>Fix broken navigation</span><span>Document branch workflow</span></div>
+        <p>To pause tracked edits and switch tasks, save them with <code>git stash push -m "short task note"</code>. Share finished commits with <code>git push</code>; receive teammates' updates with <code>git pull</code>.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="choose-lesson">
+      <div class="section-heading"><div><h2 id="choose-lesson">Choose your next lesson</h2><p>Each page focuses on a useful set of commands and includes examples.</p></div></div>
+      <div class="lessons">
+        <a class="lesson" href="everyday.html"><strong>Everyday commands</strong><span>Check, stage, commit, branch, and tag your work.</span><span class="arrow">Open lesson</span></a>
+        <a class="lesson" href="recovery.html"><strong>Undo and recover</strong><span>Use revert, reset, clean, stash, amend, and remove files carefully.</span><span class="arrow">Open lesson</span></a>
+        <a class="lesson" href="remotes.html"><strong>Branches and remotes</strong><span>Clone, fetch, pull, push, merge, rebase, and cherry-pick.</span><span class="arrow">Open lesson</span></a>
+        <a class="lesson" href="branch-workflow.html"><strong>Branch workflow</strong><span>Practice a focused feature branch and merge.</span><span class="arrow">Open lesson</span></a>
+        <a class="lesson" href="amend-example.html"><strong>Correct a commit message</strong><span>See how amend fixes the latest local commit.</span><span class="arrow">Open lesson</span></a>
+      </div>
+    </section>
   </main>
 
-  <footer class="page">Git in Practice - Learn by making small, reviewable changes.</footer>
+  <footer class="shell">Git in Practice - Learn by making small, reviewable changes.</footer>
+  <script>
+    const flow = document.querySelector("#workflow-flow");
+    const motionToggle = document.querySelector("#motion-toggle");
+
+    motionToggle.addEventListener("click", () => {
+      const paused = flow.classList.toggle("paused");
+      motionToggle.setAttribute("aria-pressed", String(paused));
+      motionToggle.textContent = paused ? "Play animation" : "Pause animation";
+    });
+  </script>
 </body>
 </html>
